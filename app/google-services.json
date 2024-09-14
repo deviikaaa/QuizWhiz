@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "253261955179",
+    "project_id": "exams-now",
+    "storage_bucket": "exams-now.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:253261955179:android:27f84f031f25633003712e",
+        "android_client_info": {
+          "package_name": "com.example.examsnow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQ9sthU_yeAHL-ieoAkuhtHFkPZlEcahQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
