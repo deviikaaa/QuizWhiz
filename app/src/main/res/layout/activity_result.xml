@@ -7,7 +7,7 @@
     android:background="@color/main"
     android:gravity="top|center_horizontal"
     android:orientation="vertical"
-    tools:context=".ExamEditor">
+    tools:context=".Result">
 
     <TextView
         android:id="@+id/title"
@@ -35,21 +35,20 @@
             android:gravity="center"
             android:layout_alignParentBottom="true">
 
-            <Button
-                android:id="@+id/submit"
-                android:layout_width="280dp"
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:padding="10dp"
-                android:background="@drawable/button_background"
-                android:textColor="@color/white"
-                android:textAllCaps="false"
-                android:text="Submit"
+                android:textSize="25dp"
+                android:padding="5dp"
+                android:gravity="center"
+                android:textColor="@color/main"
+                android:text="Total 20/20"
                 android:textStyle="bold"/>
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
+        <ListView
             android:id="@+id/listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

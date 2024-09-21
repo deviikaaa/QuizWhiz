@@ -18,13 +18,12 @@
         android:padding="10dp"
         android:textColor="@color/main"
         android:text="Question"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold"/>
+
     <RadioGroup
         android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        android:layout_height="wrap_content"
-        >
         <RadioButton
             android:id="@+id/option1"
             android:layout_width="match_parent"
@@ -34,6 +33,7 @@
             android:textColor="@color/black"
             android:buttonTint="@color/main"
             android:text="Option 1"/>
+
         <RadioButton
             android:id="@+id/option2"
             android:layout_width="match_parent"
@@ -43,6 +43,7 @@
             android:textColor="@color/black"
             android:buttonTint="@color/main"
             android:text="Option 2"/>
+
         <RadioButton
             android:id="@+id/option3"
             android:layout_width="match_parent"
@@ -52,6 +53,7 @@
             android:textColor="@color/black"
             android:buttonTint="@color/main"
             android:text="Option 3"/>
+
         <RadioButton
             android:id="@+id/option4"
             android:layout_width="match_parent"
@@ -62,8 +64,11 @@
             android:buttonTint="@color/main"
             android:text="Option 4"
             android:layout_marginBottom="7dp"/>
+
     </RadioGroup>
+
     <TextView
+        android:id="@+id/result"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20dp"
@@ -71,8 +76,9 @@
         android:gravity="center"
         android:textColor="@color/green_dark"
         android:background="@drawable/green_background"
-        android:text="Correct Answer!"
-        android:visibility="gone"
-        />
+        android:text="Correct Answer"
+        android:visibility="gone"/>
+
+
 
 </LinearLayout>

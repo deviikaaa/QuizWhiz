@@ -2,14 +2,13 @@ package com.example.examsnow;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -22,56 +21,55 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class Exam extends AppCompatActivity {
+public class Result extends AppCompatActivity {
 
     private Question[] data;
-    private String quizID;
     private String uid;
-    private int oldTotalPoints = 0;
-    private int oldTotalQuestions = 0;
+    private String quizID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_exam);
+        setContentView(R.layout.activity_result);
 
         quizID = getIntent().getStringExtra("Quiz ID");
-        ListView listview = findViewById(R.id.listview);
-        Button submit = findViewById(R.id.submit);
-        TextView title = findViewById(R.id.title);
-
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        if (getIntent().hasExtra("User UID")) uid = getIntent().getStringExtra("User UID");
+
+        TextView title = findViewById(R.id.title);
+        ListView listview = findViewById(R.id.listview);
+        TextView total = findViewById(R.id.total);
 
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.child("Quizzes").hasChild(quizID)) {
-                    DataSnapshot ref = snapshot.child("Quizzes").child(quizID);
-                    title.setText(ref.child("Title").getValue().toString());
-                    int num = Integer.parseInt(ref.child("Total Questions").getValue().toString());
+                    DataSnapshot ansRef = snapshot.child("Quizzes").child(quizID).child("Answers").child(uid);
+                    DataSnapshot qRef = snapshot.child("Quizzes").child(quizID);
+                    title.setText(qRef.child("Title").getValue().toString());
+                    int num = Integer.parseInt(qRef.child("Total Questions").getValue().toString());
                     data = new Question[num];
+                    int correctAns = 0;
                     for (int i=0;i<num;i++) {
-                        DataSnapshot qRef = ref.child("Questions").child(String.valueOf(i));
+                        DataSnapshot qRef2 = qRef.child("Questions").child(String.valueOf(i));
                         Question question = new Question();
-                        question.setQuestion(qRef.child("Question").getValue().toString());
-                        question.setOption1(qRef.child("Option 1").getValue().toString());
-                        question.setOption2(qRef.child("Option 2").getValue().toString());
-                        question.setOption3(qRef.child("Option 3").getValue().toString());
-                        question.setOption4(qRef.child("Option 4").getValue().toString());
-                        int ans = Integer.parseInt(qRef.child("Ans").getValue().toString());
+                        question.setQuestion(qRef2.child("Question").getValue().toString());
+                        question.setOption1(qRef2.child("Option 1").getValue().toString());
+                        question.setOption2(qRef2.child("Option 2").getValue().toString());
+                        question.setOption3(qRef2.child("Option 3").getValue().toString());
+                        question.setOption4(qRef2.child("Option 4").getValue().toString());
+                        question.setSelectedAnswer(Integer.parseInt(
+                                ansRef.child(String.valueOf((i+1))).getValue().toString()));
+                        int ans = Integer.parseInt(qRef2.child("Ans").getValue().toString());
+                        if (ans==question.getSelectedAnswer()) correctAns++;
                         question.setCorrectAnswer(ans);
                         data[i] = question;
                     }
+                    total.setText("Total "+correctAns+"/"+data.length);
                     ListAdapter listAdapter = new ListAdapter(data);
                     listview.setAdapter(listAdapter);
-                    DataSnapshot ref2 = snapshot.child("Users").child(uid);
-                    if (ref2.hasChild("Total Points")) {
-                        oldTotalPoints = Integer.parseInt(ref2.child("Total Points").getValue().toString());
-                    }
-                    if (ref2.hasChild("Total Questions")) {
-                        oldTotalQuestions = Integer.parseInt(ref2.child("Total Questions").getValue().toString());
-                    }
                 } else {
                     finish();
                 }
@@ -79,34 +77,10 @@ public class Exam extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(Exam.this, "Can't connect", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Result.this, "Can't connect", Toast.LENGTH_SHORT).show();
             }
         };
         database.addValueEventListener(listener);
-
-        submit.setOnClickListener(v -> {
-            DatabaseReference ref = database.child("Quizzes").child(quizID)
-                    .child("Answers").child(uid);
-            int totalPoints = oldTotalPoints;
-            int points = 0;
-            for (int i=0;i<data.length;i++) {
-                ref.child(String.valueOf((i+1))).setValue(data[i].getSelectedAnswer());
-                if (data[i].getSelectedAnswer()==data[i].getCorrectAnswer()) {
-                    totalPoints++;
-                    points++;
-                }
-            }
-            ref.child("Points").setValue(points);
-            int totalquestions = oldTotalQuestions+data.length;
-            database.child("Users").child(uid).child("Total Points").setValue(totalPoints);
-            database.child("Users").child(uid).child("Total Questions").setValue(totalquestions);
-            database.child("Users").child(uid).child("Quizzes Solved").child(quizID).setValue("");
-
-            Intent i = new Intent(Exam.this, Result.class);
-            i.putExtra("Quiz ID", quizID);
-            startActivity(i);
-            finish();
-        });
 
     }
 
@@ -143,25 +117,13 @@ public class Exam extends AppCompatActivity {
             RadioButton option2 = v.findViewById(R.id.option2);
             RadioButton option3 = v.findViewById(R.id.option3);
             RadioButton option4 = v.findViewById(R.id.option4);
+            TextView result = v.findViewById(R.id.result);
 
             question.setText(data[i].getQuestion());
             option1.setText(data[i].getOption1());
             option2.setText(data[i].getOption2());
             option3.setText(data[i].getOption3());
             option4.setText(data[i].getOption4());
-
-            option1.setOnCheckedChangeListener((compoundButton, b) -> {
-                if (b) data[i].setSelectedAnswer(1);
-            });
-            option2.setOnCheckedChangeListener((compoundButton, b) -> {
-                if (b) data[i].setSelectedAnswer(2);
-            });
-            option3.setOnCheckedChangeListener((compoundButton, b) -> {
-                if (b) data[i].setSelectedAnswer(3);
-            });
-            option4.setOnCheckedChangeListener((compoundButton, b) -> {
-                if (b) data[i].setSelectedAnswer(4);
-            });
 
             switch (data[i].getSelectedAnswer()) {
                 case 1:
@@ -178,8 +140,42 @@ public class Exam extends AppCompatActivity {
                     break;
             }
 
+            option1.setEnabled(false);
+            option2.setEnabled(false);
+            option3.setEnabled(false);
+            option4.setEnabled(false);
+
+            result.setVisibility(View.VISIBLE);
+
+            if (data[i].getSelectedAnswer()==data[i].getCorrectAnswer()) {
+                result.setBackgroundResource(R.drawable.green_background);
+                result.setTextColor(ContextCompat.getColor(Result.this, R.color.green_dark));
+                result.setText("Correct Answer");
+            } else {
+                result.setBackgroundResource(R.drawable.red_background);
+                result.setTextColor(ContextCompat.getColor(Result.this, R.color.red_dark));
+                result.setText("Wrong Answer");
+
+                switch (data[i].getCorrectAnswer()) {
+                    case 1:
+                        option1.setBackgroundResource(R.drawable.green_background);
+                        break;
+                    case 2:
+                        option2.setBackgroundResource(R.drawable.green_background);
+                        break;
+                    case 3:
+                        option3.setBackgroundResource(R.drawable.green_background);
+                        break;
+                    case 4:
+                        option4.setBackgroundResource(R.drawable.green_background);
+                        break;
+                }
+
+            }
+
             return v;
         }
     }
+
 
 }

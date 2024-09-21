@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main"
@@ -14,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="30dp">
+
         <ImageView
             android:id="@+id/signout"
             android:layout_width="30dp"
@@ -43,9 +43,11 @@
         android:padding="20dp"
         android:gravity="center_horizontal|top"
         android:orientation="vertical">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -76,6 +78,7 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <Button
                             android:id="@+id/startQuiz"
                             android:layout_width="wrap_content"
@@ -85,7 +88,7 @@
                             android:background="@drawable/button_background"
                             android:textColor="@color/white"
                             android:textAllCaps="false"
-                            android:text="Start"
+                            android:text="start"
                             android:textStyle="bold"
                             android:gravity="center"
                             android:layout_marginLeft="10dp"
@@ -127,15 +130,15 @@
                         android:layout_alignParentRight="true"/>
 
                     <TextView
-                        android:layout_width="350dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:gravity="left"
                         android:padding="10dp"
-                        android:text="Your solved Quizzes"
+                        android:text="Your Solved Quizzes"
                         android:textColor="@color/main"
                         android:textSize="22dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                 </RelativeLayout>
 
@@ -156,8 +159,8 @@
                         android:padding="10dp"
                         android:textColor="@color/main"
                         android:text="Total Questions"
-                        android:textStyle="bold"
-                        />
+                        android:textStyle="bold"/>
+
                     <TextView
                         android:id="@+id/total_questions"
                         android:layout_width="wrap_content"
@@ -171,6 +174,7 @@
                         android:background="@drawable/circle"/>
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -178,7 +182,7 @@
                     android:background="@drawable/grey_background"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    >
+                    android:layout_marginBottom="20dp">
 
                     <TextView
                         android:layout_width="170dp"
@@ -188,8 +192,8 @@
                         android:padding="10dp"
                         android:textColor="@color/main"
                         android:text="Total Points"
-                        android:textStyle="bold"
-                        />
+                        android:textStyle="bold"/>
+
                     <TextView
                         android:id="@+id/total_points"
                         android:layout_width="wrap_content"
@@ -203,6 +207,7 @@
                         android:background="@drawable/circle"/>
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -210,8 +215,7 @@
                     android:background="@drawable/grey_background"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginTop="30dp">
+                    android:layout_marginBottom="20dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -227,8 +231,9 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <Button
-                            android:id="@+id/createtQuiz"
+                            android:id="@+id/createQuiz"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="20dp"
@@ -236,7 +241,7 @@
                             android:background="@drawable/button_background"
                             android:textColor="@color/white"
                             android:textAllCaps="false"
-                            android:text="Create"
+                            android:text="create"
                             android:textStyle="bold"
                             android:gravity="center"
                             android:layout_marginLeft="10dp"
@@ -253,13 +258,12 @@
                             android:inputType="text"
                             android:imeOptions="actionDone"
                             android:layout_marginBottom="10dp"
-                            android:hint="Quiz title"
+                            android:hint="Quiz Title"
                             android:layout_toLeftOf="@+id/createQuiz"/>
 
                     </RelativeLayout>
 
                 </LinearLayout>
-
 
                 <RelativeLayout
                     android:id="@+id/your_quizzes"
@@ -267,8 +271,7 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp"
                     android:background="@drawable/grey_background"
-                    android:gravity="center"
-                    >
+                    android:gravity="center">
 
                     <ImageView
                         android:layout_width="40dp"
@@ -279,7 +282,7 @@
                         android:layout_alignParentRight="true"/>
 
                     <TextView
-                        android:layout_width="350dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:gravity="left"
@@ -287,12 +290,14 @@
                         android:text="Your Quizzes"
                         android:textColor="@color/main"
                         android:textSize="22dp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                 </RelativeLayout>
 
             </LinearLayout>
+
         </ScrollView>
+
     </LinearLayout>
 
 </LinearLayout>

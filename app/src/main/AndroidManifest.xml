@@ -10,8 +10,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ExamsNow"
+        android:theme="@style/Theme.OnlineExams"
         tools:targetApi="31">
+        <activity
+            android:name=".ListQuizzes"
+            android:exported="false" />
+        <activity
+            android:name=".Result"
+            android:exported="false" />
         <activity
             android:name=".ExamEditor"
             android:exported="false" />
