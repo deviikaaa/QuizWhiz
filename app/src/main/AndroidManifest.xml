@@ -13,6 +13,12 @@
         android:theme="@style/Theme.ExamsNow"
         tools:targetApi="31">
         <activity
+            android:name=".ExamEditor"
+            android:exported="false" />
+        <activity
+            android:name=".Exam"
+            android:exported="false" />
+        <activity
             android:name=".Home"
             android:exported="false" />
         <activity
